@@ -22,7 +22,19 @@ let pokemonRepository = (function() {
         return pokemonList;
       },
       add: function(pokemon) {
-        pokemonList.push(pokemon);
+        const expectedKeys = ["name", "height", "types"];
+        const pokemonKeys = Object.keys(pokemon);
+  
+        if (typeof pokemon === "object" && arrayEquals(pokemonKeys, expectedKeys)) {
+          pokemonList.push(pokemon);
+        } else {
+          console.log("Invalid argument. Only objects with the expected keys can be added to the pokemonList.");
+        }
+      },
+      findByName: function(name) {
+        return pokemonList.filter(function(pokemon) {
+          return pokemon.name.toLowerCase() === name.toLowerCase();
+        });
       }
     };
   })();
@@ -40,4 +52,6 @@ let pokemonRepository = (function() {
   console.log(pokemonRepository.getAll()); // Logs the pokemonList array
   pokemonRepository.add({ name: "Pikachu", height: 0.4, types: ["electric"] });
   console.log(pokemonRepository.getAll()); // Logs the updated pokemonList array
+  
+  console.log(pokemonRepository.findByName("Bulbasaur")); // Find Bulbasaur
   
