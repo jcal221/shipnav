@@ -1,21 +1,5 @@
 let pokemonRepository = (function() {
-  let pokemonList = [
-    {
-      name: "Bulbasaur",
-      height: 0.7,
-      types: ["grass", "poison"]
-    },
-    {
-      name: "Charizard",
-      height: 1.7,
-      types: ["fire", "flying"]
-    },
-    {
-      name: "Squirtle",
-      height: 1.0,
-      types: ["water"]
-    }
-  ];
+  let pokemonList = [];
 
   // Function to check if two arrays are equal
   function arrayEquals(a, b) {
@@ -33,14 +17,64 @@ let pokemonRepository = (function() {
   }
 
   function showDetails(pokemon) {
-    console.log(pokemon);
-    // Do more with the Pokémon object in a later task
+    pokemonRepository.loadDetails(pokemon).then(function() {
+      console.log(pokemon);
+    });
   }
 
   function addButtonEventListener(button, pokemon) {
     button.addEventListener('click', function() {
       showDetails(pokemon);
     });
+  }
+
+  function loadList() {
+    return fetch('https://pokeapi.co/api/v2/pokemon/')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        return Promise.all(
+          data.results.map(function(pokemon) {
+            return fetch(pokemon.url)
+              .then(function(response) {
+                return response.json();
+              })
+              .then(function(details) {
+                return {
+                  name: pokemon.name,
+                  detailsUrl: pokemon.url,
+                  imgUrl: details.sprites.front_default,
+                  height: details.height
+                };
+              })
+              .catch(function(error) {
+                console.log('Error loading Pokémon details:', error);
+              });
+          })
+        );
+      })
+      .then(function(pokemons) {
+        pokemonList = pokemons;
+      })
+      .catch(function(error) {
+        console.log('Error loading Pokémon list:', error);
+      });
+  }
+
+  function loadDetails(pokemon) {
+    return fetch(pokemon.detailsUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(details) {
+        pokemon.imgUrl = details.sprites.front_default;
+        pokemon.height = details.height;
+        // Assign other details as needed
+      })
+      .catch(function(error) {
+        console.log('Error loading Pokémon details:', error);
+      });
   }
 
   return {
@@ -81,16 +115,16 @@ let pokemonRepository = (function() {
 
       // Append the li element to the ul element
       ulElement.appendChild(liElement);
-    }
+    },
+    LoadList: loadList,
+    loadDetails: loadDetails
   };
 })();
 
-pokemonRepository.getAll().forEach(function(pokemon) {
-  pokemonRepository.addListItem(pokemon);
+pokemonRepository.LoadList().then(function() {
+  pokemonRepository.getAll().forEach(function(pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
 });
-
-console.log(pokemonRepository.getAll()); // Logs the pokemonList array
-pokemonRepository.add({ name: "Pikachu", height: 0.4, types: ["electric"] });
-console.log(pokemonRepository.getAll()); // Logs the updated pokemonList array
 
 console.log(pokemonRepository.findByName("Bulbasaur")); // Find Bulbasaur
