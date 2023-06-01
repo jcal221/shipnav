@@ -23,15 +23,61 @@ button.pokemon-button {
   cursor: pointer;
 }
 
+/* Modal styles */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  max-width: 400px;
+  width: 80%;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   /* Adjust styles for smaller screens */
   ul.pokemon-list li {
     margin-bottom: 5px;
   }
-  
+
   button.pokemon-button {
     padding: 8px 16px;
+  }
+
+  .modal-content {
+    max-width: 300px;
   }
 }
 
