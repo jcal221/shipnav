@@ -196,4 +196,4 @@ pokemonRepository.loadList().then(function() {
   });
 });
 
-console.log(pokemonRepository.findByName("Bulbasaur")); // Find Bulbasaur
+console.log(pokemonRepository.findByName("Bulbasaur")); // Find Bulbasaur.
