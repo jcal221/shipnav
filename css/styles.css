@@ -1,8 +1,15 @@
 /* Default styles */
 body {
+  background-image: url("https://images.unsplash.com/photo-1613771404721-1f92d799e49f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 ul.pokemon-list {
@@ -21,6 +28,19 @@ button.pokemon-button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow */
+  min-width: 200px; /* Set a minimum width for the button */
+  transition: background-color 0.3s ease; /* Add transition for background color */
+}
+
+button.pokemon-button:hover {
+  background-color: #d32f2f;
+}
+
+button.pokemon-button:active {
+  background-color: #b71c1c;
 }
 
 /* Modal styles */
@@ -56,14 +76,28 @@ button.pokemon-button {
   cursor: pointer;
 }
 
-h2 {
+h1 {
+  color: white; /* Set the text color to white */
   margin-top: 0;
+  text-align: center; /* Center the heading */
 }
 
 .modal-image {
   max-width: 100%;
   height: auto;
   margin-bottom: 10px;
+}
+
+/* Additional styles */
+p {
+  color: white; /* Set the text color to white */
+  text-align: center; /* Center the text */
+  margin: 20px 0; /* Add margin for spacing */
+}
+
+.back-to-top {
+  color: white;
+  margin-top: 20px;
 }
 
 /* Responsive styles */
